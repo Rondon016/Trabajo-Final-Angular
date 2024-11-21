@@ -1,0 +1,81 @@
+<table>
+    <thead>
+      <tr>
+        <th style="text-align: left">ID</th>
+        <th style="text-align: left">NAME</th>
+        <th style="text-align: left">PRICE</th>
+        <th style="text-align: left">COLOR</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let device of deviceList; trackBy: trackById">
+        <td *ngIf="device.data?.price && device.data?.color">{{ device.id }}</td>
+        <td *ngIf="device.data?.price && device.data?.color">{{ device.name }}</td>
+        <td *ngIf="device.data?.price && device.data?.color">{{ device.data.price }}</td>
+        <td *ngIf="device.data?.price && device.data?.color">{{ device.data.color }}</td>
+        <td *ngIf="device.data?.price && device.data?.color">
+          <button (click)="view(see, device)">VIEW</button>
+        </td>
+        <td *ngIf="device.data?.price && device.data?.color">
+          <button (click)="delete(device.id)">DELETE</button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="5">
+          <!-- Formulario para agregar un nuevo dispositivo -->
+          <form [formGroup]="deviceForm" (ngSubmit)="save()">
+            <div style="display: flex; justify-content: space-between;">
+              <div>
+                <input formControlName="name" placeholder="NAME">
+                <div *ngIf="deviceForm.get('name')?.touched && deviceForm.get('name')?.invalid">
+                  <small class="text-danger">Name is required.</small>
+                </div>
+              </div>
+  
+              <div>
+                <input formControlName="price" placeholder="PRICE">
+                <div *ngIf="deviceForm.get('price')?.touched && deviceForm.get('price')?.invalid">
+                  <small class="text-danger">Price is required and must be a number.</small>
+                </div>
+              </div>
+  
+              <div>
+                <input formControlName="color" placeholder="COLOR">
+                <div *ngIf="deviceForm.get('color')?.touched && deviceForm.get('color')?.invalid">
+                  <small class="text-danger">Color is required.</small>
+                </div>
+              </div>
+  
+              <button  type="submit" [disabled]="deviceForm.invalid">ADD</button>
+            </div>
+          </form>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  
+  <ng-template #see let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title">View Device</h5>
+      <button class="close topright" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <label>ID:</label>
+      <input class="form-control" [(ngModel)]="id2" readonly>
+      <label>NAME:</label>
+      <input class="form-control" [(ngModel)]="name2">
+      <label>PRICE:</label>
+      <input class="form-control" [(ngModel)]="price2">
+      <label>COLOR:</label>
+      <input class="form-control" [(ngModel)]="color2">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="modal.close()">UPDATE</button>
+    </div>
+  </ng-template>
+  
